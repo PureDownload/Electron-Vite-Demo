@@ -15,9 +15,13 @@
     "@rollup/plugin-commonjs": "^22.0.0",
     "@rollup/plugin-replace": "^4.0.0",
     "@vitejs/plugin-vue": "^2.3.1",
+    "cfonts": "^2.10.1",
+    "chalk": "4.1.2",
     "del": "^6.0.0",
     "electron": "^18.1.0",
     "electron-builder": "^23.0.3",
+    "multispinner": "^0.2.1",
+    "os": "^0.1.2",
     "portfinder": "^1.0.28",
     "vite": "^2.9.5",
     "vue": "^3.2.33"

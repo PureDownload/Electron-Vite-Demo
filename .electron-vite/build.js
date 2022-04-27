@@ -9,6 +9,11 @@ const viteConfig = require('./vite.config') //* 引入vite创建需要的配置�
 const rollupConfig = require('./rollup.config')
 const rollupOption = rollupConfig(process.env.NODE_ENV) //* 获取electron打包配置
 
+//* 工具类引入
+const { printTitle, blueLog, startMultispinner, doneBgLog } = require('./utils/shell-log.js')
+
+let m = null;//* 滚轮样式时会启动
+
 function buildApp() { //* 构建App包
     return new Promise((resolve, reject) => {
         //* 删除使用的包
@@ -16,11 +21,11 @@ function buildApp() { //* 构建App包
         rollup.rollup(rollupOption)
             .then(build => {
                 build.write(rollupOption.output)
-                console.log('App Build Success!!!')
+                //* 发送success事件给滚轮
+                m && m.success('main')
                 resolve()
             })
             .catch(error => {
-                console.log('App Build Fail!!!', error)
                 reject(error)
             })
     })  
@@ -31,19 +36,30 @@ function buildWeb() { //* 构建web包
         //* 删除包
         sync(['dist/electron/renderer/*'])
         build(viteConfig).then((res) => {
-            console.log('Web Build Success!!!')
+            //* 发送success事件给滚轮
+            m && m.success('renderer')
             resolve()
         })
         .catch(() => {
-            console.log('Web Build Faild!!!')
             reject()
         })
     })
 }
 
+function startCLL() { //* 开启两个滚轮样式
+    //* 开启两个滚轮样式
+    m = startMultispinner(['main', 'renderer'])
+}
+
 function start() { //* 启动构建方法
+    //* 打印标题
+    printTitle('Electron-Vite-Build')
+    startCLL() //* 开启滚轮
+
     Promise.all([buildApp(),buildWeb()])
     .then(()=> {
+        doneBgLog('Web Build Success!')
+        doneBgLog('App Build Success!')
         //* 成功退出
         process.exit()
     })
