@@ -1,0 +1,25 @@
+{
+  "name": "electron-demo",
+  "version": "1.0.0",
+  "description": "Hello World!!!",
+  "main": "./dist/electron/main/main.js",
+  "scripts": {
+    "start": "node .electron-vite/dev-runner.js",
+    "build": "node .electron-vite/build.js  && electron-builder -c build.json",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Mr",
+  "license": "ISC",
+  "devDependencies": {
+    "@rollup/plugin-alias": "^3.1.9",
+    "@rollup/plugin-commonjs": "^22.0.0",
+    "@rollup/plugin-replace": "^4.0.0",
+    "@vitejs/plugin-vue": "^2.3.1",
+    "del": "^6.0.0",
+    "electron": "^18.1.0",
+    "electron-builder": "^23.0.3",
+    "portfinder": "^1.0.28",
+    "vite": "^2.9.5",
+    "vue": "^3.2.33"
+  }
+}

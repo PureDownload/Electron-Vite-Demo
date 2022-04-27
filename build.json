@@ -1,0 +1,19 @@
+{
+    "asar": false,
+    "appId": "org.electron-demo",
+    "productName": "electron-vite-demo",
+    "directories": {
+        "output": "build"
+    },
+    "mac": {
+        "icon": "build/icons/icon.icns"
+    },
+    "win": {
+        "icon": "build/icons/icon.ico",
+        "target": "nsis"
+    },
+    "linux": {
+        "target": "deb",
+        "icon": "build/icons"
+    }
+}
