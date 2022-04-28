@@ -1,5 +1,5 @@
 //* 引入依赖
-const { resolve } = require('path')
+const { resolve, join } = require('path')
 const { defineConfig } = require('vite') //* 用于解析config配置
 const vue = require("@vitejs/plugin-vue") //* vue支持
 
@@ -20,6 +20,12 @@ const config = defineConfig({
         outDir: resolve('dist/electron/renderer'), //* 打包文件夹
         emptyOutDir: true, //* 打包时清空目录
 
+    },
+    resolve: {
+        alias: {//* 路径别名
+            '@renderer': root,
+            '@store': join(root, '/store/modules')
+        }
     },
     plugins: [vue()],
     publicDir: resolve('static') //* 配置静态文件夹,并且会打包到outDir下

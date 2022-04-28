@@ -107,8 +107,10 @@ function startElectron() {
 async function start() {
     printTitle('Electron-Vite-Demo') //* 打印初始化文字
     await startWeb() //* 启动网页版
-    await startMain() //* 构建包
-    await startElectron()//* 创建electron应用
+    if(!envConfig.isWeb) { //* 如果不是web版本的，就不用构建下面的包
+        await startMain() //* 构建包
+        await startElectron()//* 创建electron应用
+    }
 }
 
 //* 启动

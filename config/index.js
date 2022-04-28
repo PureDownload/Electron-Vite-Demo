@@ -6,4 +6,5 @@ module.exports = {
     env: require("./dev.env"),
     port: 9080,//* 开发环境下使用的端口
   },
+  isWeb: process.env.TARGET === 'web'
 };
