@@ -8,7 +8,7 @@ const isDev = process.env.NODE_ENV === 'development';
  * @param {string} [search=""] search值
  * @return {*}  {string} 地址
  */
-export function getUrl(devPath, proPath, hash = "", search = "") {
+export function getUrl(devPath: string, proPath: string, hash = "", search = "") {
     const url = isDev ? new URL(`http://localhost:${process.env.PORT}`) : new URL('file://');
     url.pathname = isDev ? devPath : proPath;
     url.hash = hash;

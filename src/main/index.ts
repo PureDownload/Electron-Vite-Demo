@@ -1,3 +1,4 @@
+'use strict'
 //* 依赖引入
 import { app } from 'electron'
 import InitWindow from './services/windowManager'

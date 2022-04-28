@@ -6,7 +6,7 @@ import { getUrl } from '../utils/URL'
 const winURL = getUrl("", join(__dirname, '..', 'renderer', 'index.html')); //* 获取vue的路径
 // const winURL = 'http://localhost:9080/'
 class MainInit {
-    mainWindow = null
+    public mainWindow: BrowserWindow | undefined
     createMainWindow() {
         //* 创建一个窗口对象
         this.mainWindow = new BrowserWindow({
@@ -14,7 +14,7 @@ class MainInit {
         })
         //* 加载vue页面
         this.mainWindow.loadURL(winURL)
-        this.mainWindow.openDevTools();
+        // this.mainWindow.openDevTools();
     }
     initWindow() { //* 初始化窗口
         console.log('<===== 要来创建窗口')
