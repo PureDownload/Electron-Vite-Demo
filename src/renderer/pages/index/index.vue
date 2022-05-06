@@ -1,8 +1,9 @@
 <template>
-  <h1>更新界面111</h1>
+  <h1>更新界面</h1>
+  文件地址{{ filePath }}
   <div class="actions">
     <el-button @click="checkUpdate">
-      检查更新
+      检查更新,下载更新
     </el-button>
   </div>
   <el-dialog
@@ -26,7 +27,9 @@
 import { ref } from 'vue'
 
 import { send, on } from '@renderer/utils/ipcRenderer'
-import { messageByText, successMessage } from '@renderer/utils/El'
+//* element-plus 工具类封装
+import {  ElMessageBox } from "element-plus";
+const { shell } = require("electron");
 
 let percentage = ref(0);
 let colors = ref([
@@ -36,47 +39,46 @@ let colors = ref([
   { color: "#1989fa", percentage: 80 },
   { color: "#5cb87a", percentage: 100 },
 ]);
+let filePath = ref('')
 
 let dialogVisible = ref(false);
 let progressStaus = ref('');
 
 function checkUpdate() {
   //* 检查更新方法 发送通信
-  send('check-update') //通信到main层
+  send('start-download') //通信到main层
+  dialogVisible.value = true
 }
 
-//* 监听main层发送过来的数据
-on('UpdateMsg', (event, age): void => {
-  console.log(event, age)
-  switch (age.state) {
-    case -1:
-      console.log('发生错误')
-      break
-    case 0:
-      messageByText("正在检查更新");
-      break;
-    case 1:
-      successMessage("已检查到新版本，开始下载");
-      dialogVisible.value = true;
-      break;
-    case 2:
-      successMessage("无新版本");
-      break;
-    case 3:
-      percentage.value = age.msg.percent.toFixed(1);
-      break;
-    case 4:
-      console.log('添加setTimeout事件')
-      setTimeout(() => {
-        messageByText('退出更新')
-        //发送退出并更新的通信 可写自己逻辑，比如询问是否立即更新等
-        send('confirm-update')
-      }, 5000);
-      progressStaus.value = "success";
-      successMessage('下载完成')
-      break;
-    default:
-      break;
+on("download-progress", (event, arg) => {//* 进度条
+  percentage.value = Number(arg);
+});
+on("download-error", (event, arg) => {
+  if (arg) {
+    progressStaus.value = "exception";
+    percentage.value = 40;
+    colors.value = "#d81e06";
   }
-})
+});
+on("download-paused", (event, arg) => {
+  if (arg) {
+    progressStaus.value = "warning";
+    ElMessageBox.alert("下载由于未知原因被中断！", "提示", {
+      confirmButtonText: "重试",
+      callback: (action) => {
+        checkUpdate();
+      },
+    });
+  }
+});
+on("download-done", (event, age) => {
+  filePath.value = age.filePath;
+  progressStaus.value = "success";
+  ElMessageBox.alert("更新下载完成！", "提示", {
+    confirmButtonText: "确定",
+    callback: (action) => {
+      shell.openPath(filePath.value);
+    },
+  });
+});
 </script>

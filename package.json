@@ -39,8 +39,9 @@
   },
   "dependencies": {
     "adm-zip": "^0.5.9",
-    "element-plus": "^2.1.11",
     "electron-updater": "^5.0.1",
+    "element-plus": "^2.1.11",
+    "fs-extra": "^10.1.0",
     "pinia": "^2.0.13",
     "vue-router": "^4.0.14"
   }

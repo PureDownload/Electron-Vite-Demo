@@ -26,7 +26,6 @@
 import { ref } from 'vue'
 
 import { send, on } from '@renderer/utils/ipcRenderer'
-// import { IpcRendererEvent } from 'electron/renderer';
 import { messageByText, successMessage } from '@renderer/utils/El'
 
 let percentage = ref(0);
@@ -42,10 +41,11 @@ let dialogVisible = ref(false);
 let progressStaus = ref('');
 
 function checkUpdate() {
-  //* 检查更新方法
+  //* 检查更新方法 发送通信
   send('check-update') //通信到main层
 }
 
+//* 监听main层发送过来的数据
 on('UpdateMsg', (event, age): void => {
   console.log(event, age)
   switch (age.state) {
@@ -68,8 +68,8 @@ on('UpdateMsg', (event, age): void => {
     case 4:
       console.log('添加setTimeout事件')
       setTimeout(() => {
-        console.log('退出更新')
         messageByText('退出更新')
+        //发送退出并更新的通信 可写自己逻辑，比如询问是否立即更新等
         send('confirm-update')
       }, 5000);
       progressStaus.value = "success";
