@@ -1,9 +1,11 @@
 //* 用于管理main层的监听工具类
-import { ipcMain } from "electron"
+import { BrowserWindow, ipcMain } from "electron";
 
 //* 引入通信后需要使用的工具类
-import AppUpdate from './checkUpdate'
-import DownloadFile from "./downloadFile"
+import AppUpdate from './checkUpdate';
+import DownloadFile from "./downloadFile";
+import updater from './hotUpdater';
+// import test from './test'
 
 //* 引入工具类
 import { getMainWindowByIpcEvent, getDownloadPath, getHistoryPath } from '../utils/MainWindow'
@@ -18,6 +20,9 @@ function onEvent() { //* 监听从rendener层传送过来的数据
     })
     ipcMain.handle('confirm-update', () => { //* 关闭并重新安装事件
         appUpdate.quitAndInstall()
+    })
+    ipcMain.handle('hot-update', (event, arg) => {
+        updater(BrowserWindow.fromWebContents(event.sender))
     })
     // 开始下载事件监听
     ipcMain.handle('start-download', (event, msg) => {

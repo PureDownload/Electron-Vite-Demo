@@ -10,6 +10,7 @@
     "importHelpers": true,
     "types": ["element-plus/global", "vite/client"], //** 兼容element 设置vite兼容(vite-client)用于使用require
     "jsx": "preserve", //* 在模板中进行检测
+    "resolveJsonModule": true, //* 允许引入带有".json"扩展名的模块
     "baseUrl": ".",
     "paths": {
       //* 设置路径别名 vscode会检测并进行提示 需要搭配baseUrl使用
