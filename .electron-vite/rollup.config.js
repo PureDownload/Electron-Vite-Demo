@@ -4,6 +4,7 @@ const replace = require("@rollup/plugin-replace"); //* 变量替换插件
 const alias = require("@rollup/plugin-alias");
 const { builtinModules } = require("module"); //* 不想打包的模块名
 const esbuild = require("rollup-plugin-esbuild").default; //* 编译配置 比如 ts的使用
+const { nodeResolve } = require('@rollup/plugin-node-resolve')
 
 const config = (env = "production") => {
   const mainConfig = {
@@ -21,6 +22,7 @@ const config = (env = "production") => {
         preventAssignment: true,
         "process.env.NODE_ENV": JSON.stringify(env),
       }),
+      // nodeResolve({ preferBuiltins: true, browser: false, extensions: ['.mjs', '.ts', '.js', '.json', '.node'] }),
       esbuild({
         // All options are optional
         include: /\.[jt]s?$/, // default, inferred from `loaders` option

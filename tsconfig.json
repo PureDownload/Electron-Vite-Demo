@@ -7,8 +7,8 @@
     "forceConsistentCasingInFileNames": true /* Ensure that casing is correct in imports. */,
     /* Type Checking */
     "strict": true, //* 严格模式
-
-    "types": ["element-plus/global"], //* 兼容element
+    "importHelpers": true,
+    "types": ["element-plus/global", "vite/client"], //** 兼容element 设置vite兼容(vite-client)用于使用require
     "jsx": "preserve", //* 在模板中进行检测
     "baseUrl": ".",
     "paths": {
@@ -18,6 +18,7 @@
       "@main/*": ["src/main/*"],
       "@store/*": ["src/renderer/store/modules/*"]
     },
+    
     "typeRoots": ["node_modules/@types"]
   },
   "include": ["src/**/*", "customTypes/*"],

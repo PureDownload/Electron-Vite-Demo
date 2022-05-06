@@ -12,3 +12,10 @@ app.on('window-all-closed', () => {
     // 所有平台均为所有窗口关闭就退出软件
     app.quit()
 })
+
+// 生产环境下需要注释
+Object.defineProperty(app, 'isPackaged', {
+  get() {
+    return true;
+  }
+});
